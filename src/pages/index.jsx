@@ -1,9 +1,10 @@
 import React from 'react'
+import IndexHeader from '../components/index-header';
 
 const Index = () => {
   return (
     <div>
-      This is the home page!
+      <IndexHeader/>
     </div>
   )
 }

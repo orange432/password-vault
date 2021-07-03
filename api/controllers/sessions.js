@@ -6,6 +6,8 @@ import {v4 as uuidv4} from 'uuid';
 
 const newSession = async (username, password) => {
   try{
+    await Session.sync();
+    await User.sync();
     let userdata = await User.findOne({where:{username}})
     if(userdata){
       if(userdata.password!==saltPassword(password,userdata.salt)){
@@ -16,7 +18,7 @@ const newSession = async (username, password) => {
       if(exists){
         throw "Database error.  Please try again";
       }
-      await Session.sync();
+      
       await Session.create({
         id: session,
         username,

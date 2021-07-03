@@ -3,7 +3,7 @@ import SignUp from '../components/signup'
 
 const Register = () => {
   return (
-    <div>
+    <div className="container">
       <SignUp/>
     </div>
   )
