@@ -30,11 +30,12 @@ const SignUp = () => {
     })
     .then(response=>response.json())
     .then(({data})=>{
-      if(data.success){
-        localStorage.setItem('session',data.session);
+      const {userLogin} = data;
+      if(userLogin.success){
+        localStorage.setItem('session',userLogin.session);
         window.location.href = "/dashboard"
       }else{
-        setMessage(data.message);
+        setMessage(userLogin.message);
         setTimeout(()=>setMessage(''),4000);
       }
     })
@@ -63,14 +64,15 @@ const SignUp = () => {
     })
     .then(response=>response.json())
     .then(({data})=>{
-      if(data.success){
-        setMessage(data.message);
+      const { userRegister } = data;
+      if(userRegister.success){
+        setMessage(userRegister.message);
         setSelected(0);
         setTimeout(()=>{
           setMessage('');
         },4000);
       }else{
-        setMessage(data.message);
+        setMessage(userRegister.message);
         setTimeout(()=>setMessage(''),4000);
       }
     })
@@ -85,7 +87,7 @@ const SignUp = () => {
         <div className="sign-up__tab selected">Register</div>
       </div>
       <h1 className="sign-up__title">Sign Up</h1>
-      <p className="">{message}</p>
+      <p className="text-center">{message}</p>
       <div className="sign-up__container">
         <label>Username</label>
         <input type="text" onChange={e=>setUsername(e.target.value)}/>
@@ -93,7 +95,7 @@ const SignUp = () => {
         <input type="password" onChange={e=>setPassword(e.target.value)}/>
         <label>Verify Password</label>
         <input type="password" onChange={e=>setVerifyPassword(e.target.value)}/>
-        <button type="button" onClick={()=>signUp()}>Sign Up</button>
+        <button className="btn-prim" type="button" onClick={signUp}>Sign Up</button>
       </div>
     </div>
   )
@@ -106,13 +108,13 @@ const SignUp = () => {
         <div className="sign-up__tab" onClick={()=>setSelected(1)}>Register</div>
       </div>
       <h1 className="sign-up__title">Sign In</h1>
-      <p className="">{message}</p>
+      <p className="text-center">{message}</p>
       <div className="sign-up__container">
         <label>Username</label>
         <input type="text" onChange={e=>setUsername(e.target.value)}/>
         <label>Password</label>
         <input type="password" onChange={e=>setPassword(e.target.value)}/>
-        <button type="button" onClick={()=>signIn()}>Sign Up</button>
+        <button className="btn-prim" type="button" onClick={signIn}>Sign In</button>
       </div>
     </div>
     )

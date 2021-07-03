@@ -18,18 +18,43 @@ const listPasswordsWithUsername = async (username) => {
 }
 
 /* Lists all the passwords for a specified user id */
-const listPasswords = async (userid) => {
+const listPasswords = async (userId) => {
   try{
-    let passwords = await Password.findAll({where: {owner: userid}});
+    let passwords = await Password.findAll({where: {owner: userId}});
     return passwords;
   }catch(err){
-    return false;
+    return [];
   }
 }
 
 /* Adds a password to the specified userid */
-const addPassword = async (userid,password,label) => {
-  
+const addPassword = async (userId,password,label) => {
+  try{
+    await Password.sync();
+    let result = await Password.create({
+      owner: userId,
+      label,
+      password
+    })
+    return {success: true, message: "Password successfully added to database"}
+  }catch(err){
+    return {success: false, message: 'Database Error'}
+  }
 }
 
-export { listPasswords, listPasswordsWithUsername};
+const editPassword = async (userId,passwordId,password,label) => {
+  try{
+    await Password.sync();
+    let result = await Password.update({
+      owner: userId,
+      label,
+      password
+    },{where: {id: passwordId}})
+    return {success: true, message: "Password successfully added to database"}
+  }catch(err){
+    console.log(err);
+    return {success: false, message: 'Database Error'}
+  }
+}
+
+export { listPasswords, listPasswordsWithUsername, addPassword, editPassword};

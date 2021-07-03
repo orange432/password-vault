@@ -3,28 +3,29 @@ import User from '../models/user.js';
 import { saltPassword } from '../util/encrypt.js';
 import {v4 as uuidv4} from 'uuid';
 
-
+/* Starts a new session if the login is successful */
 const newSession = async (username, password) => {
   try{
+    console.log(password);
     await Session.sync();
     await User.sync();
     let userdata = await User.findOne({where:{username}})
     if(userdata){
-      if(userdata.password!==saltPassword(password,userdata.salt)){
-      let session = uuidv4();
-      let exists = await Session.findOne({where: {
-        id: session
-      }})
-      if(exists){
-        throw "Database error.  Please try again";
-      }
-      
-      await Session.create({
-        id: session,
-        username,
-        expiry: Date.now()+15*60*1000
-      })
-      return {success: true, session, message: "Login Successful!"};
+      if(userdata.password===saltPassword(password,userdata.salt)){
+        let session = uuidv4();
+        let exists = await Session.findOne({where: {
+          id: session
+        }})
+        if(exists){
+          throw "Database error.  Please try again";
+        }
+        console.log(session);
+        await Session.create({
+          id: session,
+          user_id: userdata.id,
+          expiry: Date.now()+15*60*1000
+        })
+        return {success: true, session, message: "Login Successful!"};
     }else{
       throw "Invalid password!"
     }
@@ -33,10 +34,12 @@ const newSession = async (username, password) => {
     }
     
   }catch(err){
+    console.log(err);
     return {success: false, session: '',message: err};
   }
 }
 
+/* Checks if session is valid */
 const authorizeSession = async (session) => {
   try{
     let sessionData = await Session.findOne({where: {session}});

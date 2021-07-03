@@ -1,8 +1,12 @@
 import User from '../models/user.js';
 import { saltPassword,randomString } from '../util/encrypt.js';
 
+/* Creates a user */
 const createUser = async (username,password)=>{
   try{
+    if(password.length<5 || username.length<5){
+      throw 'Username and Password must be at least 5 characters';
+    }
     await User.sync()
     let exists = await User.findOne({where: {username}})
     if(exists){

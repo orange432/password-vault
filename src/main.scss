@@ -31,8 +31,23 @@ a{
   font-weight: bold;
   text-decoration: none;
   margin: 2px;
+  cursor: pointer;
   &:hover{
     background: orange;
+  }
+}
+
+.btn-sec{
+  border-radius: 4px;
+  padding: 6px 12px;
+  background: darkblue;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  margin: 2px;
+  cursor: pointer;
+  &:hover{
+    background: blue;
   }
 }
 
