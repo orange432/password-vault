@@ -159,3 +159,55 @@ a{
     }
   }
 }
+
+.add-password{
+  border: 2px solid white;
+  width: 50%;
+  min-width: 360px;
+  margin: 0 auto;
+  
+  label{
+    display: block;
+    font-size: 20px;
+  }
+  input{
+    font-size: 24px;
+    width: 99%;
+  }
+  &__input{
+    display: flex;
+  }
+  &__inputs{
+    overflow-x: hidden;
+    padding: 8px;
+  }
+  &__top{
+    padding: 12px 6px;
+    background: darkgray;
+    h2{
+      display: inline;
+    }
+    button{
+      float: right;
+    }
+  }
+}
+
+.password{
+  width: 50%;
+  min-width: 360px;
+  margin: 10px auto;
+  border: 2px solid white;
+  padding: 6px;
+  &__label{
+    font-size: 24px;
+  }
+  input{
+    width: 100%;
+    background: #111;
+    color: #fff;
+  }
+  &__pass{
+    display: flex;
+  }
+}

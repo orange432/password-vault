@@ -42,20 +42,31 @@ const newSession = async (username, password) => {
 /* Checks if session is valid */
 const authorizeSession = async (session) => {
   try{
-    let sessionData = await Session.findOne({where: {session}});
+    let sessionData = await Session.findOne({where: {id: session}});
     if(!sessionData){
       throw "Session doesn't exist.";
     }
     if(sessionData.expiry<Date.now()){
-      await Session.destroy({where: {session}});
+      await Session.destroy({where: {id: session}});
       throw "Session expired";
     }
     return {success: true, user_id: sessionData.user_id};
   }catch(err){
+    console.log(err);
     return {success: false, user_id: 0};
   }
 }
 
-export {newSession, authorizeSession};
-const SC = {newSession, authorizeSession};
-export default SC;
+/* Deletes the session */
+const deleteSession = async (session) => {
+  try{
+    Session.sync()
+    await Session.destroy({where: {id: session}})
+    return {success: true, message: "Logout successful"};
+  }catch(err){
+    console.log(err);
+    return {success: false, message: "Something went wrong, please try again."}
+  }
+}
+
+export {newSession, authorizeSession, deleteSession};

@@ -90,7 +90,7 @@ const RootMutation = new GraphQLObjectType({
       async resolve(parent,args){
         let session = await authorizeSession(args.session);
         if(session.success){
-          let result = await addPassword(session.user_id,args.password, args.label);
+          await addPassword(session.user_id,args.password, args.label);
           return {success: true, message: "Password successfully added."}
         }
         return {success: false, message: "Please Log in"};
@@ -108,7 +108,7 @@ const RootMutation = new GraphQLObjectType({
       async resolve(parent,args){
         let session = await authorizeSession(args.session);
         if(session.success){
-          let result = await editPassword(session.user_id,args.id,args.password,args.label);
+          await editPassword(session.user_id,args.id,args.password,args.label);
           return {success: true, message: "Password successfully edited."}
         }
         return {success: false, message: "Please Log in"};
@@ -124,6 +124,15 @@ const RootMutation = new GraphQLObjectType({
         let result = await createUser(args.username,args.password);
         return result;
       }  
+    },
+    userLogout: {
+      type: SuccessType,
+      args: {
+        session: {type: GraphQLString}
+      },
+      async resolve(parent,args){
+        
+      }
     }
   }
 })
